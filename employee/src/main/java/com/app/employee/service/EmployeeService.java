@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.employee.exception.ResourceNotFoundException;
+import com.app.employee.exception.UsernameAlreadyExistsException;
 import com.app.employee.model.Employee;
 import com.app.employee.repository.EmployeeRepository;
 
@@ -20,26 +22,22 @@ public class EmployeeService {
 
         List<Employee> employees = repository.getEmployees();
 
-        for(Employee emp : employees) 
-        {
-               if(emp.getUsername().equals(employee.getUsername())) 
-                {
-                    throw new RuntimeException("Username already exists");
-                }
+        for (Employee emp : employees) {
+            if (emp.getUsername().equals(employee.getUsername())) {
+                throw new UsernameAlreadyExistsException("Username '" + employee.getUsername() + "' already exists");
+            }
         }
         return repository.saveEmployee(employee);
     }
 
     // Login
-    public boolean authenticate(String username, String password) 
-    {
+    public boolean authenticate(String username, String password) {
         List<Employee> employees = repository.getEmployees();
-        return employees.stream() .anyMatch(emp -> emp.getUsername().equals(username) && emp.getPassword().equals(password));
+        return employees.stream().anyMatch(emp -> emp.getUsername().equals(username) && emp.getPassword().equals(password));
     }
 
     // Second Highest Salary
-    public Employee getSecondHighestSalaryEmployee() 
-    {
+    public Employee getSecondHighestSalaryEmployee() {
         return repository.getEmployees()
                 .stream()
                 .sorted(Comparator
@@ -47,6 +45,6 @@ public class EmployeeService {
                         .reversed())
                 .skip(1)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new ResourceNotFoundException("Employee with second highest salary not found. At least 2 employees are required."));
     }
 }
