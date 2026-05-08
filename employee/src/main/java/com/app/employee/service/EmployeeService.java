@@ -12,7 +12,8 @@ import com.app.employee.model.Employee;
 import com.app.employee.repository.EmployeeRepository;
 
 @Service
-public class EmployeeService {
+public class EmployeeService 
+{
 
     @Autowired
     private EmployeeRepository repository;

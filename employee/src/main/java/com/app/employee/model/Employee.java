@@ -72,11 +72,11 @@ public class Employee {
         this.password = password;
     }
 
-    public double getExpectedSalary() {
+    public Double getExpectedSalary() {
         return expectedSalary;
     }
 
-    public void setExpectedSalary(double expectedSalary) {
+    public void setExpectedSalary(Double expectedSalary) {
         this.expectedSalary = expectedSalary;
     }
 }
