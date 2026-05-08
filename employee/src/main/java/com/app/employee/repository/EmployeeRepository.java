@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.app.employee.model.Employee;
 
 @Repository
-public interface EmployeeRepository
-        extends JpaRepository<Employee, Integer> {
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> 
+{
 
     default Employee saveEmployee(Employee employee) 
     {
